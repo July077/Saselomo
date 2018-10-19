@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 
+ classpath:mapper/ProductReceivingSingleSingleMapper.xml
+ -->
+<mapper namespace="com.huahua.saselomo.sales.dao.ProSalesSingleDao">
+  <!-- 存储售货单子项与产品对应关系信息 -->
+  <insert id="saveObject" parameterType="com.huahua.saselomo.sales.entity.ProductSalesSingle">
+  	INSERT INTO product_sales_single 
+  	(id, productId, salesSingleId) 
+  	VALUES 
+  	(#{id}, #{productId}, #{salesSingleId});
+  </insert>
+  <!-- 根据售货子项id删除一条信息 -->
+  <delete id="deleteObject" parameterType="java.lang.Integer">
+  	DELETE FROM product_sales_single
+  	WHERE salesSingleId = #{salSingleId};
+  </delete>
+</mapper> 

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 
+ classpath:mapper/ClientSalesMapper.xml
+ -->
+<mapper namespace="com.huahua.saselomo.sales.dao.ClientSalesDao">
+  <!-- 存储售货单与客户对应关系信息 -->
+  <insert id="saveObject" parameterType="com.huahua.saselomo.sales.entity.ClientSales">
+  	INSERT INTO client_sales 
+  	(id, clientId, salesId) 
+  	VALUES 
+  	(#{id}, #{clientId}, #{salesId});
+  </insert>
+  <!-- 根据id删除一条信息 -->
+  <delete id="deleteObject" parameterType="java.lang.Integer">
+  	DELETE FROM client_sales
+  	WHERE salesId = #{salesId};
+  </delete>
+  <!-- 根据售货单id查询对应客户id信息,以此对象返回 -->
+  <select id="findObjectBySalesId" resultType="com.huahua.saselomo.sales.entity.ClientSales">
+  	SELECT id, clientId 
+  	FROM client_sales 
+  	WHERE salesId = #{salesId};
+  </select>
+  <!-- 根据售货单id更新对应的客户id信息 -->
+  <update id="updateObject" parameterType="com.huahua.saselomo.sales.entity.ClientSales">
+  	UPDATE client_sales 
+  	SET 
+  	clientId = #{clientId} 
+   	WHERE salesId = #{salesId};
+  </update>
+</mapper> 

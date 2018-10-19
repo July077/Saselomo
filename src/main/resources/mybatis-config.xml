@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- 不少应用服务器的classpath中已经包含Commons Logging，如Tomcat和WebShpere，
+    	所以MyBatis会把它作为具体的日志实现。这将意味着，在诸如 WebSphere的环境中
+    	——WebSphere提供了Commons Logging的私有实现，你的Log4J配置将被忽略。 
+    	MyBatis怎么能忽略你的配置呢？事实上，因Commons Logging已经存 在了，按照优先级顺序，
+    	Log4J自然就被忽略了！不过，如果你的应用部署在一个包含Commons Logging的环境， 而你
+    	又想用其他的日志框架，你可以通过在MyBatis的配置文件mybatis-config.xml里面添加一
+    	项setting（配置）来选择一个不同的日志实现 -->
+    <settings>
+		<!-- mybatis控制台LOG输出 -->
+        <setting name="logImpl" value="LOG4J2" />
+    </settings>
+</configuration>

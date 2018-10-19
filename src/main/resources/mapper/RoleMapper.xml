@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 
+ classpath:mapper/RoleMapper.xml
+ -->
+<mapper namespace="com.huahua.saselomo.system.dao.RoleDao">
+	<!-- 查询所有的角色信息 -->
+	<select id="findObjects" resultType="com.huahua.saselomo.system.entity.Role">
+		SELECT id, role, description, parentId, createdTime 
+		FROM sys_roles 
+		<where>
+			<if test="role!=null and role!=''">
+				role LIKE CONCAT("%", #{role}, "%") 
+			</if>
+		</where>
+		ORDER BY createdTime DESC
+		<if test="pageObject!=null and pageObject.pageSize!=0">
+			LIMIT #{pageObject.startIndex},#{pageObject.pageSize}
+		</if>
+	</select>
+	<!-- 查询总记录数 -->
+	<select id="getRowCounts" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM sys_roles 
+		<where>
+			<if test="role!=null and role!=''">
+				role LIKE CONCAT("%", #{role}, "%") 
+			</if>
+		</where>
+	</select>
+	<!-- 插入用户信息 -->
+	<insert id="saveObject" parameterType="com.huahua.saselomo.system.entity.Role">
+		INSERT INTO sys_roles 
+		(role, description, parentId, createdTime, createdUser)
+		VALUES
+		(#{role}, #{description}, #{parentId}, NOW(), #{createdUser}) 
+	</insert>
+	<!-- 更新用户信息 -->
+	<update id="updateObject" parameterType="com.huahua.saselomo.system.entity.Role">
+		UPDATE sys_roles 
+		SET
+			role = #{role}, 
+			description = #{description}, 
+			parentId = #{parentId},
+			modifiedTime = NOW(),
+			modifiedUser = #{modifiedUser} 
+		WHERE id = #{id}
+	</update>
+	<!-- 根据id删除一条用户信息 -->
+	<delete id="deleteObject" parameterType="java.lang.Integer">
+		DELETE FROM sys_roles 
+		WHERE id=#{id}
+	</delete>
+	<!-- 根据id查询一条角色信息 -->
+	<select id="findObjectById" parameterType="java.lang.Integer" resultType="com.huahua.saselomo.system.entity.Role">
+		SELECT id, role, description, parentId, createdTime 
+		FROM sys_roles 
+		WHERE id = #{id}
+	</select>
+</mapper> 

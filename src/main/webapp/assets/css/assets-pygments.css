@@ -1,0 +1,272 @@
+/*自定义字体*/
+*{
+	font-family: '微软雅黑';
+}
+/*自定义导航条颜色*/
+.navbar{
+	background-color: #EB4545;
+	margin-bottom:0 !important;
+	border-radius: 0 !important;
+}
+/*将导航栏背景色设置为黑色*/
+.menuNav{
+	/* width: 17%; */
+	/*height: 582px;*/
+	height: 660px;
+	background-color: #000;
+	box-shadow: black 0px 3px 5px 1px;
+}
+/*隐藏子导航栏*/
+.nav-stacked > .menu-hide{
+	display: none;
+}
+/*设置导航下拉图标大小颜色*/
+.dropdown-icon{
+	color: #CCC;
+	font-size: 10px;
+}
+/*设置子导航鼠标移动点击的背景色*/
+ul > .menu-hide > a:hover,
+ul > .menu-hide > a:focus{
+	background-color: #EB4545;
+}
+/*设置导航条字体颜色*/
+.navbar a:link,.navbar a:visited  {
+	color: white;
+}
+.nav-stacked a:link,.nav-stacked a:visited  {
+	color: white;
+}
+/*设置导航条用户样式*/
+#userSelect{
+	margin-right: 15px;
+}
+/*主页图片*/
+#mainPage{
+	margin-top: 15px;
+}
+
+/*核心内容*/
+#context-core{
+	/* width: 81%; */
+	padding-right: 15px;
+}
+
+/*设置标签导航*/
+#coreNav{
+	margin-top: 10px;
+}
+
+/*设置标签导航单个样式*/
+#coreNav > ul > li > a, 
+#coreNav > ul > a:hover,
+#coreNav > ul > a:focus{
+	color: #777;
+	background-color: #f8f8f8;
+	border: 1px #ddd solid;
+	border-bottom: none;
+	padding-top: 6px;
+	padding-bottom: 6px;
+}
+/*设置标签导航激活单个样式*/
+#coreNav > ul > .active > a, 
+#coreNav > ul > .active > a:hover,
+#coreNav > ul > .active > a:focus{
+	color: white;
+	background-color: #EB4545;
+}
+
+/*设置核心内容展示框*/
+#coreShow{
+	border: 1px #ddd solid;
+	border-top: none;
+	padding: 10px;
+	padding-bottom: 94px
+}
+
+
+/*设置表格*/
+#coreTable{
+	margin-top: 10px;
+	height: 400px;
+}
+/*设置表格行高*/
+.table>tbody>tr>td, 
+.table>tbody>tr>th, 
+.table>tfoot>tr>td, 
+.table>tfoot>tr>th, 
+.table>thead>tr>td, 
+.table>thead>tr>th{
+	padding: 5px;
+	height: 34px;
+}
+
+/*设置表格表头样式*/
+.table>thead>tr>td, 
+.table>thead>tr>th{
+	color: white;
+	background-color: #EB4545;
+}
+
+/*设置表格操作中的按钮*/
+.tooltip-demo button{
+	border-radius: 0 !important;
+	border: none;
+	background-color: white;
+	padding: 0;
+	padding-right: 6px;
+	padding-left: 6px;
+}
+
+/*设置分页*/
+.paginationBox{
+	position: absolute;
+	left: 0;
+	bottom: 10px;
+	width: 100%
+}
+/*设置相关组的表单样式*/
+fieldset{	
+	padding:.35em .625em .75em;
+	margin:0 2px;
+	border:1px solid #EB4545;
+	border-radius: 5px; 
+}
+legend{
+	padding: .2em;
+	border:0;
+	border-radius: 5px; 
+	width:100px;
+	background-color: #EB4545;
+	color: white;
+	font-size: 15px;
+	margin-bottom: 5px;
+}
+legend span{
+	display: block;
+	text-align: center;	
+}
+
+/*设置新建modal*/
+.wholeSituationModal{
+	width: 100%;
+}
+.wholeSituationModal td{
+	padding: 5px;
+}
+
+/*设置详情modal*/
+.wholeSituationModalDetails{
+	width: 100%;
+}
+.wholeSituationModalDetails td{
+	padding-bottom: 15px;
+}
+.wholeSituationModalDetails td[class=modalDetails]{
+	padding-right: 30px;
+}
+#detailsTable #contentReceivingSingles tr{
+	height: 32px;
+}
+#detailsTablePage{
+	height: 235px;
+	overflow: auto;
+}
+
+
+/*详情页*/
+.detailsBtnList{
+	height: 70px;
+	padding-top: 15px;
+	padding-bottom: 10px;
+}
+
+/*复选框高度*/
+.checkboxSingle{
+	width: 50px;
+}
+/*设置label宽度,便于进行选择复选框*/
+label{
+	width: 50px;
+	margin: 0；
+}
+/* 变手*/
+.checkboxSingle :hover{
+	cursor: pointer;
+}
+
+/*设置星号图标*/
+.asteriskIcon{
+	color: #EB4545;
+	font-size: 5px;
+}
+
+/*提示字体设置*/
+.hintFont{
+	font-size: 16px;
+	color: red;
+}
+
+/*设置下拉框子选项样式*/
+.dropdownBox li a{
+	color: #555;
+	font-size: 12px;
+}
+/*设置表格样式*/
+.rowOne, 
+#coreTable .rowOneBtn,
+#detailsTable .rowOneBtn{
+	background-color: #FDFDFD;
+}
+.rowTwo, 
+#coreTable .rowTwoBtn,
+#detailsTable .rowTwoBtn{
+	background-color: #E9F4F7;
+}
+#coreTable .rowOne:hover, 
+#coreTable .rowTwo:hover,
+#detailsTable .rowOne:hover,
+#detailsTable .rowTwo:hover{
+	background-color: #99CCFF;
+}
+ /*警告框样式*/
+#alertBox{
+	display: none;
+	width: 400px; 
+	height: 67px;
+	position: fixed; 
+	top: 35%; 
+	left: 35%; 
+	z-index: 1100;
+	box-shadow: #888 0px 0px 10px 2px;
+}
+#myAlert{
+	background-color: #FCFCFC;
+	height: 67px;
+	text-align: center;
+}
+.btnList button{
+	margin-right: 15px;
+}
+/*登录样式*/
+.login-box{
+	width: 360px;
+    margin: 7% auto;
+}
+.login-logo{
+	font-size: 35px;
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: 300;
+}
+.login-box-body{
+    background: #fff;
+    padding: 20px;
+    border-top: 0;
+    color: #666;
+}
+.login-box-msg{
+    margin: 0;
+    text-align: center;
+    padding: 0 20px 20px 20px;
+}

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 
+ classpath:mapper/ReceivingSingleSingleMapper.xml
+ -->
+<mapper namespace="com.huahua.saselomo.inventory.dao.InventoryDao">
+	<!-- 根据产品id,查询一条库存信息 -->
+	<select id="findObjectByProId" resultType="com.huahua.saselomo.inventory.entity.Inventory">
+		SELECT id, productId, inventoryCount, inventoryAvailable, inventoryFreeze, inventoryValid, inventoryOrderForm  
+		FROM inventory 
+		WHERE productId = #{productId};
+	</select>
+	<!-- 查询库存信息 -->
+	<select id="findObjects" resultType="java.util.Map">
+		SELECT i.id, i.productId, i.inventoryCount, i.inventoryAvailable, i.inventoryFreeze, i.inventoryValid, i.inventoryOrderForm, p.name 
+		FROM inventory i  
+		JOIN product p ON i.productId = p.id 
+		<where>
+			<if test="productName!=null and productName!=''">
+				AND p.name LIKE CONCAT("%", #{productName}, "%") 
+			</if>
+		</where>
+		ORDER BY i.id DESC 
+		<if test="pageObject != null">
+			LIMIT #{pageObject.startIndex}, #{pageObject.pageSize};
+		</if>
+	</select>
+	<!-- 查询库存总记录数 -->
+	<select id="getRowCount" resultType="java.lang.Integer">
+		SELECT count(*) 
+		FROM inventory i
+		JOIN product p ON i.productId = p.id 
+		<where>
+			<if test="productName!=null and productName!=''">
+				p.name LIKE CONCAT("%", #{productName}, "%") 
+			</if>
+		</where>
+	</select>
+	<!-- 插入库存信息 -->
+	<insert id="saveObject" parameterType="com.huahua.saselomo.inventory.entity.Inventory">
+		INSERT INTO inventory 
+		(productId, inventoryCount, inventoryAvailable, inventoryFreeze, inventoryValid, inventoryOrderForm)
+		VALUES
+		(#{productId}, #{inventoryCount}, #{inventoryAvailable}, #{inventoryFreeze}, #{inventoryValid}, #{inventoryOrderForm});
+	</insert>
+	<!-- 更新库存信息 -->
+	<update id="updateObject" parameterType="com.huahua.saselomo.inventory.entity.Inventory">
+		UPDATE inventory 
+		SET 
+		productId = #{productId}, 
+		inventoryCount = #{inventoryCount}, 
+		inventoryAvailable = #{inventoryAvailable}, 
+		inventoryFreeze = #{inventoryFreeze}, 
+		inventoryValid = #{inventoryValid}, 
+		inventoryOrderForm = #{inventoryOrderForm}
+		WHERE id = #{id};
+	</update>
+	<!-- 根据id查询一条库存信息 -->
+	<select id="findObjectById" parameterType="java.lang.Integer" resultType="com.huahua.saselomo.inventory.entity.Inventory">
+		SELECT id, productId, inventoryCount, inventoryAvailable, inventoryFreeze, inventoryValid, inventoryOrderForm 
+		FROM inventory 
+		WHERE id = #{id}; 
+	</select>
+</mapper> 

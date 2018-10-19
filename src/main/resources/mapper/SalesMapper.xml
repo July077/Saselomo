@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 
+ classpath:mapper/SalesMapper.xml
+ -->
+<mapper namespace="com.huahua.saselomo.sales.dao.SalesDao">
+  <!-- 根据客户id查询对应客户的售货单信息 -->
+  <select id="findObjectByClientId" resultType="java.util.Map">
+  	SELECT s.id, s.saleCode, s.valid, s.saleDate, s.totalPrice, s.note, s.createdTime, s.modifiedTime, s.createdUser, s.modifiedUser, c.name 
+  	FROM sales s 
+  	JOIN client_sales cs ON s.id = cs.salesId 
+  	JOIN client c ON  c.id = cs.clientId 
+  	WHERE c.id = #{id};
+  </select>
+  <!-- 根据售货单id,查询售货单对应客户的id,和售货单的销售时间 -->
+  <select id="findCliAndSalById"  resultType="java.util.Map">
+  	SELECT s.saleDate, cs.clientId 
+  	FROM sales s 
+  	JOIN client_sales cs ON s.id = cs.salesId 
+	WHERE s.id = #{id};
+  </select>
+  
+  <!-- 根据售货单编号(部分)进行模糊查询,主要用于生成售货单编号 -->
+  <select id="findObjectsBySaleCode" resultType="com.huahua.saselomo.sales.entity.Sales">
+  	SELECT id, saleCode, createdTime 
+  	FROM sales
+  	<where>
+  		<if test="saleCode!=null and saleCode!=''">
+  			saleCode LIKE CONCAT("%", #{saleCode}, "%") 
+  		</if>
+  	</where>
+  	ORDER BY createdTime DESC;
+  </select>
+  <!-- 查询售货单信息 -->
+  <select id="findObjects" resultType="java.util.Map">
+  	SELECT s.id, s.saleCode, s.valid, s.saleDate, s.totalPrice, s.note, s.createdTime, s.modifiedTime, s.createdUser, s.modifiedUser, c.name 
+  	FROM sales s 
+  	JOIN client_sales cs ON s.id = cs.salesId 
+  	JOIN client c ON  c.id = cs.clientId 
+  	<where>
+  		<if test="clientName!=null and clientName!=''">
+  			c.name LIKE CONCAT("%", #{clientName}, "%") 
+  		</if>
+  		<if test="sale.saleDate != null">
+  			AND s.saleDate = #{sale.saleDate} 
+  		</if>
+  	</where>
+  	ORDER BY createdTime DESC 
+  	LIMIT #{pageObject.startIndex}, #{pageObject.pageSize};
+  </select>
+  <!-- 获取表中售货单信息记录数 -->
+  <select id="getRowCount" resultType="java.lang.Integer">
+	SELECT count(*) FROM sales s 
+  	JOIN client_sales cs ON s.id = cs.salesId 
+  	JOIN client c ON  c.id = cs.clientId 
+	<where>
+ 		<if test="clientName!=null and clientName!=''">
+ 			c.name LIKE CONCAT("%", #{clientName}, "%") 
+ 		</if>
+ 		<if test="sale.saleDate != null">
+ 			AND s.saleDate = #{sale.saleDate} 
+ 		</if>
+ 	</where>
+  </select>
+  <!-- 根据id查询一条售货单信息 -->
+  <select id="findObjectById" parameterType="java.lang.Integer" resultType="com.huahua.saselomo.sales.entity.Sales">
+  	SELECT id, saleCode, valid, saleDate, totalPrice, note, createdTime, modifiedTime, createdUser, modifiedUser 
+  	FROM sales
+  	WHERE id=#{id};
+  </select>
+  
+  <!-- 将一条售货单信息插入到数据库 -->
+  <insert id="saveObject" useGeneratedKeys="true" keyProperty="id" parameterType="com.huahua.saselomo.receiving.entity.Receiving">
+  	INSERT INTO sales
+  	(id, saleCode, valid, saleDate, totalPrice, note, createdTime, createdUser)
+  	VALUES
+  	(#{id}, #{saleCode}, #{valid}, #{saleDate}, #{totalPrice}, #{note}, NOW(), #{createdUser});
+  </insert>
+  
+  <!-- 根据id删除一条售货单信息 -->
+  <delete id="deleteObject" parameterType="java.lang.Integer">
+  	DELETE FROM sales 
+  	WHERE id=#{id};
+  </delete>
+  
+  <!-- 更新售货单信息 -->
+  <update id="updateObject" parameterType="com.huahua.saselomo.sales.entity.Sales">
+  	UPDATE sales 
+  	SET 
+  	saleCode = #{saleCode}, 
+  	valid = #{valid}, 
+  	saleDate = #{saleDate}, 
+  	totalPrice = #{totalPrice}, 
+  	note = #{note}, 
+  	modifiedTime = NOW(), 
+  	modifiedUser = #{modifiedUser} 
+  	WHERE id = #{id};
+  </update>
+</mapper> 

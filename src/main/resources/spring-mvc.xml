@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"  
+	xmlns:jee="http://www.springframework.org/schema/jee" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="  
+       http://www.springframework.org/schema/beans   
+       http://www.springframework.org/schema/beans/spring-beans-4.3.xsd  
+       http://www.springframework.org/schema/mvc   
+       http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd   
+       http://www.springframework.org/schema/tx   
+       http://www.springframework.org/schema/tx/spring-tx-4.3.xsd   
+       http://www.springframework.org/schema/context  
+       http://www.springframework.org/schema/context/spring-context-4.3.xsd" > 
+		<!-- Spring包扫描 dao,service,controll.. -->
+		<context:component-scan base-package="com.huahua.saselomo"/>
+		<!-- spring mvc 注解及类型转换 -->
+		<mvc:annotation-driven conversion-service="conversionService" />
+	    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+	    </bean>
+		<!-- spring视图解析器 -->
+		<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+			<property name="prefix" value="/WEB-INF/pages/"/>
+			<property name="suffix" value=".jsp"/>
+		</bean>
+		
+		<!-- 多部分文件上传 -->
+	    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">  
+	        <!-- 默认编码 -->
+	        <property name="defaultEncoding" value="utf-8"></property>   
+	        <!-- 文件大小的最大值 -->
+	        <property name="maxUploadSize" value="10485760000"></property>
+	        <!-- 文件在内存的大小 -->  
+	        <property name="maxInMemorySize" value="40960"></property>  
+		</bean> 
+		
+		<!-- 
+			配置拦截器。
+				可配置多个拦截器，若多个拦截器都满足需求，按顺序调用
+		 -->
+		<!-- <mvc:interceptors>
+			<mvc:interceptor>
+				<mvc:mapping path="/**"/>拦截哪些请求
+				<mvc:exclude-mapping path="/loginUI.do"/>排除哪些请求
+				<mvc:exclude-mapping path="/login.do"/>
+				<bean class="cn.mmxy.ssm.common.interceptor.LoginSessionInterceptor"/>拦截器类
+			</mvc:interceptor>
+		</mvc:interceptors> -->
+</beans>

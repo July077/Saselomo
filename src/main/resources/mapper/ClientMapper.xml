@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 
+ classpath:mapper/ClientMapper.xml
+ -->
+<mapper namespace="com.huahua.saselomo.client.dao.ClientDao">
+  <!-- 批量插入客户信息,用于excel表格的导入 -->
+  <insert id="importObject" parameterType="java.util.List">
+  	INSERT INTO client
+  	(id, name, valid, sex, age, address, phone, skinCondition, timetable, note, createdTime, createdUser)
+  	VALUES
+  	<foreach collection="clients" item="client" separator=",">
+  		(#{client.id}, #{client.name}, #{client.valid}, #{client.sex}, #{client.age}, #{client.address}, #{client.phone}, #{client.skinCondition}, #{client.timetable}, #{client.note}, NOW(), #{client.createdUser})
+  	</foreach>
+  </insert>
+  <!-- 根据客户名模糊查询客户信息 -->
+  <select id="findObjectByName" resultType="com.huahua.saselomo.client.entity.Client">
+  	SELECT id, name, valid, createdTime 
+  	FROM client 
+	<where>
+		<if test="name!=null and name!=''">
+			name LIKE CONCAT("%", #{name}, "%")
+		</if>
+	</where>
+	ORDER BY createdTime DESC 
+  </select>
+  <!-- 查询客户信息 -->
+  <select id="findObjects" resultType="com.huahua.saselomo.client.entity.Client">
+  	SELECT id, name, valid, sex, age, address, phone, skinCondition, timetable, note, createdTime, modifiedTime, createdUser, modifiedUser 
+  	FROM client c 
+  	<where>
+  		<if test="client.name!=null and client.name!=''">
+  			c.name LIKE CONCAT("%", #{client.name}, "%") 
+  		</if>
+  		<if test="client.sex!=null and client.sex!=''">
+  			AND c.sex LIKE #{client.sex} 
+  		</if>
+  		<if test="client.skinCondition!=null and client.skinCondition!=''">
+  			AND c.skinCondition LIKE CONCAT("%", #{client.skinCondition}, "%") 
+  		</if>
+  		<if test="client.address!=null and client.address!=''">
+  			AND c.address LIKE CONCAT("%", #{client.address}, "%") 
+  		</if>
+  		<if test="client.note!=null and client.note!=''">
+  			AND c.note LIKE CONCAT("%", #{client.note}, "%") 
+  		</if>
+  		<if test="client.timetable != null">
+  			AND c.timetable = #{client.timetable} 
+  		</if>
+  	</where>
+  	ORDER BY createdTime DESC 
+  	<if test="pageObject != null">
+	  	LIMIT #{pageObject.startIndex}, #{pageObject.pageSize};
+  	</if>
+  </select>
+  <!-- 获取表中客户信息记录数 -->
+  <select id="getRowCount" resultType="java.lang.Integer">
+ 		SELECT count(*) FROM client c
+ 		<where>
+	  		<if test="client.name!=null and client.name!=''">
+	  			c.name LIKE CONCAT("%", #{client.name}, "%") 
+	  		</if>
+	  		<if test="client.sex!=null and client.sex!=''">
+	  			AND c.sex LIKE #{client.sex} 
+	  		</if>
+	  		<if test="client.skinCondition!=null and client.skinCondition!=''">
+	  			AND c.skinCondition LIKE CONCAT("%", #{client.skinCondition}, "%") 
+	  		</if>
+	  		<if test="client.address!=null and client.address!=''">
+	  			AND c.address LIKE CONCAT("%", #{client.address}, "%") 
+	  		</if>
+	  		<if test="client.note!=null and client.note!=''">
+	  			AND c.note LIKE CONCAT("%", #{client.note}, "%") 
+	  		</if>
+	  		<if test="client.timetable != null">
+	  			AND c.timetable = #{client.timetable} 
+	  		</if>
+	  	</where>
+  </select>
+  <!-- 根据id查询一条客户信息 -->
+  <!-- 
+  	# 与 $ 的区别? 
+  	#是通过预编译的,会是一个占位符;有效的防止SQL注入;
+  	$是直接进行字符串拼接的;
+  	
+  	占位符：占位符就是在某个地方占领一个位置，把它单独作为某个东西，比如这里就是把它作为 值。 
+	字符拼接：字符拼接就是简单的对字符串拼接。没有特殊的其它含义。
+  	-->
+  <select id="findObjectById" parameterType="java.lang.Integer" resultType="com.huahua.saselomo.client.entity.Client">
+  	SELECT id, name, valid, sex, age, address, phone, skinCondition, timetable, note, createdTime, modifiedTime, createdUser, modifiedUser 
+  	FROM client 
+  	WHERE id=#{id};
+  </select>
+  
+  <!-- 将一条客户信息插入到数据库 -->
+  <insert id="saveObject" parameterType="com.huahua.saselomo.client.entity.Client">
+  	INSERT INTO client
+  	(id, name, valid, sex, age, address, phone, skinCondition, timetable, note, createdTime, createdUser)
+  	VALUES
+  	(#{id}, #{name}, #{valid}, #{sex}, #{age}, #{address}, #{phone}, #{skinCondition}, #{timetable}, #{note}, NOW(), #{createdUser});
+  </insert>
+  
+  <!-- 根据id删除一条客户信息 -->
+  <delete id="deleteObject" parameterType="java.lang.Integer">
+  	DELETE FROM client 
+  	WHERE id=#{id};
+  </delete>
+  
+  <!-- 更新客户信息 -->
+  <update id="updateObject" parameterType="com.huahua.saselomo.client.entity.Client">
+  	UPDATE client 
+  	SET 
+  	name = #{name}, 
+  	valid = #{valid}, 
+  	sex = #{sex}, 
+  	age = #{age}, 
+  	address = #{address}, 
+  	phone = #{phone}, 
+  	skinCondition = #{skinCondition}, 
+  	timetable = #{timetable}, 
+  	note = #{note}, 
+  	modifiedTime = NOW(), 
+  	modifiedUser = #{modifiedUser}
+  	WHERE id = #{id};
+  	
+  </update>
+</mapper> 
