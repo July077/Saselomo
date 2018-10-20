@@ -1,10 +1,10 @@
 # FirstProject
 My First Project。<br/>
-**Url**：[foo]:http://47.92.121.229:8080/Saselomo1.0/toLogin.do/"演示"<br/>
+**Url**：[演示](http://47.92.121.229:8080/Saselomo1.0/toLogin.do)<br/>
 **Username**：admin；**Password**：123；<br/>
 **Description**：<br/>
 此项目为一个进、出货的库存管理系统；<br/>
-##涉及到模块：
+## 涉及到模块：
 >1、基础信息：客户、产品、用户；<br/>
 >2、供销管理，收货管理、售货管理；<br/>
 >3、库存管理：库存信息，库存冻结与库存操作（暂未完成）；<br/>
