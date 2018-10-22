@@ -1,6 +1,6 @@
 # FirstProject
 My First Project。<br/>
-**Url**：[项目演示][http://47.92.121.229:8080/Saselomo1.0/toLogin.do](http://47.92.121.229:8080/Saselomo1.0/toLogin.do)<br/>
+**Url**：<a href="http://47.92.121.229:8080/Saselomo1.0/toLogin.do" target="_blank">项目演示</a><br/>
 **Username**：admin；**Password**：123；<br/>
 **Description**：<br/>
 此项目为一个进、出货的库存管理系统；<br/>
