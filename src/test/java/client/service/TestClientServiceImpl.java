@@ -1,6 +1,8 @@
 package client.service;
 
 import org.junit.Test;
+import com.huahua.saselomo.client.entity.Client;
+import com.huahua.saselomo.common.web.PageObject;
 
 import common.TestBase;
 /**
@@ -11,8 +13,9 @@ import common.TestBase;
 public class TestClientServiceImpl extends TestBase{
 	@Test
 	public void testFindObjects(){
-//		Client client = new Client();
-//		System.out.println(cs.findObjects(client));
+		Client client = new Client();
+		PageObject pageObject = new PageObject();
+		System.out.println(cs.findObjects(client,pageObject));
 	}
 	
 	@Test

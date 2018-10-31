@@ -85,8 +85,8 @@ public class ClientController {
        //设置文本类型
         response.setContentType("text/html;charset=utf-8");
         OutputStream out = response.getOutputStream();
-        String filePath = "E:\\java\\Tomcat\\apache-tomcat-7.0.67\\wtpwebapps\\Saselomo1.0\\ExcelTemplate\\import_client.xlsx";
-//      String filePath = "E:\\Tomcat\\apache-tomcat-7.0.67\\webapps\\Saselomo1.0\\ExcelTemplate\\import_client.xlsx";
+//        String filePath = "E:\\java\\Tomcat\\apache-tomcat-7.0.67\\wtpwebapps\\Saselomo1.0\\ExcelTemplate\\import_client.xlsx";
+      String filePath = "/usr/local/tomcat/saselomo/Saselomo1.0/ExcelTemplate/import_client.xlsx";
         try {
         	CommonUtil.fileCopy(out, filePath);
 		} catch (IOException e) {

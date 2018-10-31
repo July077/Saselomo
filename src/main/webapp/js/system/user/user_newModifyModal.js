@@ -66,7 +66,7 @@ function doSaveOrUpdate(){
 		let boo2 = inputNullValueJudge('userPasswordModify', '亲, 密码不能为空...');
 		if (boo2) return;//密码为空结束此方法
 	}
-	let boo3 = inputNullValueJudge('userMobileModify', '亲,手机号不能为空...');
+	let boo3 = inputNullValueJudge('userNameModify', '亲,姓名不能为空...');
 	if(boo3) return;//手机号为空结束此方法
 	//1.获得表单数据
 	var params = doGetEditFormData();

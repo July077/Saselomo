@@ -63,8 +63,8 @@
 	          <th style="width: 5%;">NO</th>
 	          <th>姓名</th>
 	          <th>用户名</th>
-	          <th>邮箱</th>
 	          <th>手机号</th>
+	          <th>邮箱</th>
 	          <th>状态</th>
 	          <th>创建日期</th>
 	          <th>操作</th>

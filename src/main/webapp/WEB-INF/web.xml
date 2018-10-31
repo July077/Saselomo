@@ -56,6 +56,10 @@
   	<filter-name>shiroFilter</filter-name>
   	<url-pattern>/*</url-pattern>
   </filter-mapping>
+  <!-- 用来获取Request, Session等 -->
+  <listener>
+        <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+  </listener>
   <welcome-file-list>
     <welcome-file>homepage.do</welcome-file>
   </welcome-file-list>

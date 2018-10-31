@@ -1,6 +1,7 @@
 package common;
 
 import org.junit.Before;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.huahua.saselomo.client.dao.ClientDao;
@@ -72,7 +73,7 @@ public class TestBase {
 		ctx = new ClassPathXmlApplicationContext(mvc,mybatis, pool);
 		clientPurHistoryDao = ctx.getBean("clientPurHistoryDao",ClientPurHistoryDao.class);
 		clientDao = ctx.getBean("clientDao",ClientDao.class);
-		cs = ctx.getBean("clientServiceImpl", ClientServiceImpl.class);
+		cs = (ClientService) ctx.getBean("clientServiceImpl");
 		productDao = ctx.getBean("productDao", ProductDao.class);
 		ps = ctx.getBean("productServiceImpl", ProductServiceImpl.class);
 		receivingDao = ctx.getBean("receivingDao", ReceivingDao.class);

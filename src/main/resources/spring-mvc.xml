@@ -16,10 +16,14 @@
        http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd   
        http://www.springframework.org/schema/tx   
        http://www.springframework.org/schema/tx/spring-tx-4.3.xsd   
+       http://www.springframework.org/schema/aop 
+       http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
        http://www.springframework.org/schema/context  
        http://www.springframework.org/schema/context/spring-context-4.3.xsd" > 
 		<!-- Spring包扫描 dao,service,controll.. -->
 		<context:component-scan base-package="com.huahua.saselomo"/>
+		<!-- 使Aspect注解生效, 自动生成代理类 -->
+	    <aop:aspectj-autoproxy/>
 		<!-- spring mvc 注解及类型转换 -->
 		<mvc:annotation-driven conversion-service="conversionService" />
 	    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
@@ -40,16 +44,4 @@
 	        <property name="maxInMemorySize" value="40960"></property>  
 		</bean> 
 		
-		<!-- 
-			配置拦截器。
-				可配置多个拦截器，若多个拦截器都满足需求，按顺序调用
-		 -->
-		<!-- <mvc:interceptors>
-			<mvc:interceptor>
-				<mvc:mapping path="/**"/>拦截哪些请求
-				<mvc:exclude-mapping path="/loginUI.do"/>排除哪些请求
-				<mvc:exclude-mapping path="/login.do"/>
-				<bean class="cn.mmxy.ssm.common.interceptor.LoginSessionInterceptor"/>拦截器类
-			</mvc:interceptor>
-		</mvc:interceptors> -->
 </beans>

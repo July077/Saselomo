@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,7 @@ import com.huahua.saselomo.common.exception.NullPropertyException;
 import com.huahua.saselomo.common.exception.SaveObjectException;
 import com.huahua.saselomo.common.exception.UpdateObjectException;
 import com.huahua.saselomo.common.util.CommonUtil;
+import com.huahua.saselomo.common.util.LogApp;
 import com.huahua.saselomo.common.web.PageObject;
 import com.huahua.saselomo.sales.dao.SalesDao;
 /**
@@ -39,11 +42,13 @@ import com.huahua.saselomo.sales.dao.SalesDao;
  */
 @Service
 public class ClientServiceImpl implements ClientService {
-	@Autowired
-	@Qualifier("clientDao")
+//	@Autowired
+//	@Qualifier("clientDao")
+	@Resource
 	private ClientDao clientDao;
-	@Autowired
-	@Qualifier("salesDao")
+//	@Autowired
+//	@Qualifier("salesDao")
+	@Resource
 	private SalesDao salesDao;
 	
 	public Map<String, Object> findObjects(Client client, PageObject pageObject) {
@@ -140,7 +145,7 @@ public class ClientServiceImpl implements ClientService {
 		for (int i = 0; i < listOb.size(); i++) {
 			Client client = new Client();//声明客户对象
 			if("".equals(listOb.get(i).get(0).toString())){
-				System.out.println((String)listOb.get(i).get(0));
+//				System.out.println((String)listOb.get(i).get(0));
 				throw new NullPropertyException("姓名不能为空;位于第"+(i+2)+"行,第1列");
 			}
 			client.setName((String)listOb.get(i).get(0));//姓名

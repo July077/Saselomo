@@ -42,6 +42,7 @@
 			</tr>
 			<tr>
 				<td class="text-right">
+					<span class="glyphicon glyphicon-asterisk asteriskIcon"></span>
 					<span>姓名:</span>
 				</td>
 				<td>
@@ -53,7 +54,6 @@
 			</tr>
 			<tr>
 				<td class="text-right">
-					<span class="glyphicon glyphicon-asterisk asteriskIcon"></span>
 					<span>手机号:</span>
 				</td>
 				<td>
