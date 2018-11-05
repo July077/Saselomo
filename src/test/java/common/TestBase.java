@@ -1,13 +1,11 @@
 package common;
 
 import org.junit.Before;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.huahua.saselomo.client.dao.ClientDao;
 import com.huahua.saselomo.client.dao.ClientPurHistoryDao;
 import com.huahua.saselomo.client.service.ClientService;
-import com.huahua.saselomo.client.service.impl.ClientServiceImpl;
 import com.huahua.saselomo.inventory.dao.InventoryDao;
 import com.huahua.saselomo.product.dao.ProductDao;
 import com.huahua.saselomo.product.service.ProductService;
@@ -15,7 +13,9 @@ import com.huahua.saselomo.product.service.impl.ProductServiceImpl;
 import com.huahua.saselomo.receiving.dao.ProductReceivingSingleDao;
 import com.huahua.saselomo.receiving.dao.ReceivingDao;
 import com.huahua.saselomo.receiving.dao.ReceivingSingleDao;
+import com.huahua.saselomo.receiving.service.ReceivingSingleService;
 import com.huahua.saselomo.receiving.service.impl.ReceivingServiceImpl;
+import com.huahua.saselomo.receiving.service.impl.ReceivingSingleServiceImpl;
 import com.huahua.saselomo.sales.dao.ClientSalesDao;
 import com.huahua.saselomo.sales.dao.ProSalesSingleDao;
 import com.huahua.saselomo.sales.dao.SalesDao;

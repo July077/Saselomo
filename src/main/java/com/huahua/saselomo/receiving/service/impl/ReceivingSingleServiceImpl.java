@@ -7,6 +7,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.huahua.saselomo.common.exception.DeleteObjectException;
 import com.huahua.saselomo.common.exception.FindObjectException;
@@ -51,7 +54,7 @@ public class ReceivingSingleServiceImpl implements ReceivingSingleService {
 		map.put("pageObject", pageObject);//分页数据
 		return map;
 	}
-
+	@Transactional(propagation=Propagation.REQUIRED)
 	public void saveObject(ReceivingSingle recSingle, Integer productId) {
 		//1. 存储收获单信息
 		int numRecSingle = receivingSingleDao.saveObject(recSingle);
@@ -133,7 +136,7 @@ public class ReceivingSingleServiceImpl implements ReceivingSingleService {
 		rec.setTotalPrice(totalPrice);//设置总价格
 		receivingService.updateObject(rec);
 	}
-	
+	@Transactional(propagation=Propagation.REQUIRED)
 	public void deleteObject(Integer id, Integer receivingId) {
 		//进行判定此收货单子项是否为收货状态
 		Map<String, Object> recSingle = receivingSingleDao.findObjectById(id);
@@ -205,7 +208,7 @@ public class ReceivingSingleServiceImpl implements ReceivingSingleService {
 		}
 		
 	}
-	
+	@Transactional(propagation=Propagation.REQUIRED)
 	public void confirmRecSingle(String recSinIds, Integer recId) {
 		//1. 将选中子项进行收货
 		if (recSinIds==null || recSinIds.length()==0) {

@@ -8,7 +8,7 @@
   <!-- 查询此客户全部购买记录 -->
   <select id="findObjects" resultType="com.huahua.saselomo.client.entity.ClientPurHistory">
   	SELECT id, clientId, purchaseDate, purProSimp, purProFull 
-  	FROM clientPurHistory 
+  	FROM clientpurhistory 
 	WHERE clientId = #{clientId} 
 	<if test="purDate != null">
 		AND purchaseDate = #{purDate} 
@@ -21,7 +21,7 @@
   <!-- 获取总记录数 -->  
   <select id="getRowCount" resultType="java.lang.Integer">
   	SELECT count(*) 
-  	FROM clientPurHistory 
+  	FROM clientpurhistory 
   	WHERE clientId = #{clientId} 
 	<if test="purDate != null">
 		AND purchaseDate = #{purDate} 
@@ -29,14 +29,14 @@
   </select>
   <!-- 存储客户购买记录 -->
   <insert id="saveObject" parameterType="com.huahua.saselomo.client.entity.ClientPurHistory">
-  	INSERT INTO clientPurHistory  
+  	INSERT INTO clientpurhistory  
   	(id, clientId, purchaseDate, purProSimp, purProFull) 
   	VALUES 
   	(#{id}, #{clientId}, #{purchaseDate}, #{purProSimp}, #{purProFull});
   </insert>
   <!-- 更新客户购买记录 -->
   <update id="updateObject" parameterType="com.huahua.saselomo.client.entity.ClientPurHistory">
-  	UPDATE clientPurHistory 
+  	UPDATE clientpurhistory 
   	SET 
   	clientId = #{clientId}, 
   	purchaseDate = #{purchaseDate}, 

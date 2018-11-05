@@ -16,15 +16,15 @@
 			<PatternLayout pattern="[%-5p] %d{yyyy-MM-dd HH:mm:ss,SSS} method:%m%n"/> 
 		</Console>
 		<!--这个会打印出所有的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档-->
-        <RollingFile name="RollingFile" fileName="/data/logs/saselomo/logs/TraceLog.log"
-           filePattern="/data/logs/saselomo/$${date:yyyy-MM}/log-%d{MM-dd-yyyy}-%i.log">
+        <RollingFile name="RollingFile" fileName="logs/TraceLog.log"
+           filePattern="logs/$${date:yyyy-MM}/log-%d{MM-dd-yyyy}-%i.log">
             <!-- <PatternLayout pattern="%d{dd MMM yyyy HH\:mm\:ss.SSS} [%p] [%t] [%c] %m%n"/> -->
             <PatternLayout pattern="[%-5p] %d{yyyy-MM-dd HH:mm:ss,SSS} method:%m%n"/>
             <SizeBasedTriggeringPolicy size="5M"/>
         </RollingFile>
 	</appenders>
 	<loggers>
-		<root level="info">
+		<root level="debug">
 			<appender-ref ref="Console" />
 			<!-- 写入到文件 -->
 			<appender-ref ref="RollingFile"/>

@@ -9,6 +9,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.huahua.saselomo.client.entity.Client;
 import com.huahua.saselomo.client.service.ClientService;
@@ -63,7 +65,7 @@ public class SalesServiceImpl implements SalesService {
 		map.put("pageObject", pageObject);//分页数据
 		return map;
 	}
-
+	@Transactional(propagation=Propagation.REQUIRED)
 	public void saveObject(Sales sales, Integer clientId) {
 		//1.储存售货单信息
 //		售货单编号为空,默认自动生成
@@ -129,7 +131,7 @@ public class SalesServiceImpl implements SalesService {
 		cs.setSalesId(sales.getId());
 		clientSalesService.updateObject(cs);
 	}
-
+	@Transactional(propagation=Propagation.REQUIRED)
 	public void deleteObject(Integer id) {
 		//1. 判定此售货单是否为部分售货或者为全部售货
 		Sales sales = salesDao.findObjectById(id);

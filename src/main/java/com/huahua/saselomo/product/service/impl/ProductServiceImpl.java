@@ -64,7 +64,6 @@ public class ProductServiceImpl implements ProductService {
 		map.put("pageObject", pageObject);
 		return map;
 	}
-
 	public Product findObjectById(Integer id) {
 //		System.out.println("findObjectById");
 		//若id为空,抛出异常空属性
@@ -78,7 +77,6 @@ public class ProductServiceImpl implements ProductService {
 		}
 		return product;
 	}
-
 	public void saveObject(Product product) {
 //		System.out.println("saveObject");
 		int rows = productDao.saveObject(product);
@@ -87,7 +85,6 @@ public class ProductServiceImpl implements ProductService {
 			throw new SaveObjectException("产品信息存储失败,请稍后再试...");
 		}
 	}
-
 	public void deleteObject(Integer id) {
 		if(id == null){
 			throw new NullPropertyException("id不能为空...");
@@ -102,14 +99,12 @@ public class ProductServiceImpl implements ProductService {
 			throw new DeleteObjectException("产品信息删除失败,请稍后再试...");
 		}
 	}
-
 	public void updateObject(Product product) {
 		int rows = productDao.updateObject(product);
 		if(rows != 1){//正常情况下是1,若不是,则是更新失败
 			throw new UpdateObjectException("产品信息更新失败,请稍后再试...");
 		}
 	}
-
 	public void exportProduct(OutputStream out) {
 		//1. 查询产品数据
 		Product pro = new Product();
@@ -121,7 +116,6 @@ public class ProductServiceImpl implements ProductService {
 		String pattern = "yyyy-MM-dd";
 		expExcel.exportExcelCar(headers, sheetName, data, out, pattern);
 	}
-
 	public void importExcelInfo(MultipartFile mFile) throws IOException {
 		InputStream in = null;
 		try {

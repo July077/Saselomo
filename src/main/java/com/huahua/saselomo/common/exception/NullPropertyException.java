@@ -33,6 +33,6 @@ public class NullPropertyException extends RuntimeException{
 		super(cause);
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	
 }

@@ -10,8 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -28,7 +26,6 @@ import com.huahua.saselomo.common.exception.NullPropertyException;
 import com.huahua.saselomo.common.exception.SaveObjectException;
 import com.huahua.saselomo.common.exception.UpdateObjectException;
 import com.huahua.saselomo.common.util.CommonUtil;
-import com.huahua.saselomo.common.util.LogApp;
 import com.huahua.saselomo.common.web.PageObject;
 import com.huahua.saselomo.sales.dao.SalesDao;
 /**
@@ -42,15 +39,12 @@ import com.huahua.saselomo.sales.dao.SalesDao;
  */
 @Service
 public class ClientServiceImpl implements ClientService {
-//	@Autowired
-//	@Qualifier("clientDao")
-	@Resource
+	@Autowired
+	@Qualifier("clientDao")
 	private ClientDao clientDao;
-//	@Autowired
-//	@Qualifier("salesDao")
-	@Resource
+	@Autowired
+	@Qualifier("salesDao")
 	private SalesDao salesDao;
-	
 	public Map<String, Object> findObjects(Client client, PageObject pageObject) {
 //		System.out.println("findObjects");
 		//获取页面表格要显示的数据
@@ -64,7 +58,6 @@ public class ClientServiceImpl implements ClientService {
 		map.put("pageObject", pageObject);//分页数据
 		return map;
 	}
-
 	public Client findObjectById(Integer id) {
 		//若id为空,抛出异常空属性
 		if(id == null){
@@ -77,7 +70,7 @@ public class ClientServiceImpl implements ClientService {
 		}
 		return client;
 	}
-
+	
 	public void saveObject(Client client) {
 		int rows = clientDao.saveObject(client);
 		//返回-1,说明存储失败
@@ -85,7 +78,6 @@ public class ClientServiceImpl implements ClientService {
 			throw new SaveObjectException("客户信息存储失败,请稍后再试...");
 		}
 	}
-
 	public void deleteObject(Integer id) {
 		if(id == null){
 			throw new NullPropertyException("id不能为空...");
@@ -100,19 +92,16 @@ public class ClientServiceImpl implements ClientService {
 			throw new DeleteObjectException("客户信息删除失败,请稍后再试...");
 		}
 	}
-
 	public void updateObject(Client client) {
 		int rows = clientDao.updateObject(client);
 		if(rows != 1){//正常情况下是1,若不是,则是更新失败
 			throw new UpdateObjectException("客户信息更新失败,请稍后再试...");
 		}
 	}
-
 	public List<Client> findObjectByName(String name) {
 		List<Client> clients = clientDao.findObjectByName(name);//获取信息
 		return clients;
 	}
-
 	public void exportClient(OutputStream out) {
 		//1. 查询客户数据
 		Client cli = new Client();
@@ -124,7 +113,6 @@ public class ClientServiceImpl implements ClientService {
 		String pattern = "HH:mm:ss";
 		expExcel.exportExcelCar(headers, sheetName, data, out, pattern);
 	}
-
 	public void ImportExcelInfo(MultipartFile mFile) throws ParseException, IOException {
 		InputStream in = null;
 		//1. 获取输入流
@@ -178,8 +166,4 @@ public class ClientServiceImpl implements ClientService {
 		//5. 将客户数据存储
 		clientDao.importObject(listCli);
 	}
-	
 }
-
-
-

@@ -6,8 +6,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.huahua.saselomo.common.util.LogApp;
-
 /**
  * 此注解标注用于标识此类为全局的异常处理类
  * @author Lin·Y

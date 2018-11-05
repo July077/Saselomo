@@ -24,7 +24,6 @@ public class ClientPurHistoryServiceImpl implements ClientPurHistoryService {
 	@Autowired
 	@Qualifier("clientPurHistoryDao")
 	private ClientPurHistoryDao cphDao;
-	
 	public Map<String, Object> findObjects(ClientPurHistory clientPurHistory, PageObject pageObject) {
 		if(clientPurHistory.getClientId() == null){
 			throw new NullPropertyException("客户id不能为空");
@@ -40,21 +39,18 @@ public class ClientPurHistoryServiceImpl implements ClientPurHistoryService {
 		map.put("pageObject", pageObject);//分页数据
 		return map;
 	}
-
 	public void saveObject(ClientPurHistory clientPurHistory) {
 		int rows = cphDao.saveObject(clientPurHistory);
 		if(rows == -1){
 			throw new SaveObjectException("客户购买记录存储失败");
 		}
 	}
-
 	public void updateObject(ClientPurHistory clientPurHistory) {
 		int rows = cphDao.updateObject(clientPurHistory);
 		if(rows == -1){
 			throw new SaveObjectException("客户购买记录更新失败");
 		}
 	}
-
 	public List<ClientPurHistory> findObjects(ClientPurHistory cpHis) {
 		if(cpHis.getClientId() == null){
 			throw new NullPropertyException("客户id不能为空");
@@ -62,5 +58,4 @@ public class ClientPurHistoryServiceImpl implements ClientPurHistoryService {
 		List<ClientPurHistory> list = cphDao.findObjects(cpHis.getClientId(), cpHis.getPurchaseDate(), null);
 		return list;
 	}
-
 }

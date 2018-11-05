@@ -8,6 +8,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.huahua.saselomo.client.entity.ClientPurHistory;
 import com.huahua.saselomo.client.service.ClientPurHistoryService;
@@ -204,7 +206,7 @@ public class SalesSingleServiceImpl implements SalesSingleService {
 		map.put("pageObject", pageObject);//分页数据
 		return map;
 	}
-
+	@Transactional(propagation=Propagation.REQUIRED)
 	public void saveObject(SalesSingle salSingle, Integer productId) {
 		//1. 存储售货单信息
 		int numSalSingle = salesSingleDao.saveObject(salSingle);
@@ -250,7 +252,7 @@ public class SalesSingleServiceImpl implements SalesSingleService {
 		}
 		return salSingles;
 	}
-
+	@Transactional(propagation=Propagation.REQUIRED)
 	public void updateObject(SalesSingle salesSingle) {
 		//进行判定此售货单子项是否为售货
 		Map<String, Object> ss = salesSingleDao.findObjectById(salesSingle.getId());
@@ -286,7 +288,7 @@ public class SalesSingleServiceImpl implements SalesSingleService {
 		totalPrice -= (count * salePrice);//总价减去原有价格
 		return totalPrice;
 	}
-
+	@Transactional(propagation=Propagation.REQUIRED)
 	public void deleteObject(Integer id, Integer salesId) {
 		//进行判定此售货单子项是否为售货
 		Map<String, Object> salesSingle = salesSingleDao.findObjectById(id);
