@@ -15,9 +15,9 @@
 		</li>
 		<li class="menu-hide"><a id="clientNav" href="javascript:;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;客户管理</a></li>
 		<li class="menu-hide"><a id="productNav" href="javascript:;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;产品管理</a></li>
-		<shiro:hasPermission name="user:all">
+<%--		<shiro:hasPermission name="user:all">--%>
 			<li class="menu-hide"><a id="userNav" href="javascript:;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;用户管理</a></li>
-		</shiro:hasPermission>
+<%--		</shiro:hasPermission>--%>
 	</ul>
 	<ul class="nav nav-stacked">
 		<li class="parentNav">
@@ -63,7 +63,7 @@
 		<li class="menu-hide"><a href="javascript:;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;报警设置管理</a></li>
 		<li class="menu-hide"><a href="javascript:;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;报警记录管理</a></li>
 	</ul>
-	<shiro:hasPermission name="system:all">
+<%--	<shiro:hasPermission name="system:all">--%>
 		<ul class="nav nav-stacked">
 			<li class="parentNav">
 				<a href="javascript:;">
@@ -75,7 +75,7 @@
 			<li class="menu-hide"><a id="permissionNav" href="javascript:;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;权限项管理</a></li>
 			<li class="menu-hide"><a id="roleNav" href="javascript:;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;角色管理</a></li>
 		</ul>	
-	</shiro:hasPermission>
+<%--	</shiro:hasPermission>--%>
 </div>
 
 <script type="text/javascript" src="${basePath }/js/common/menu.js"></script>

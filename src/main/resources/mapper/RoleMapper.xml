@@ -7,7 +7,7 @@
 <mapper namespace="com.huahua.saselomo.system.dao.RoleDao">
 	<!-- 查询所有的角色信息 -->
 	<select id="findObjects" resultType="com.huahua.saselomo.system.entity.Role">
-		SELECT id, role, description, parentId, createdTime 
+		SELECT id, role, description,  createdTime
 		FROM sys_roles 
 		<where>
 			<if test="role!=null and role!=''">
@@ -31,9 +31,9 @@
 	<!-- 插入用户信息 -->
 	<insert id="saveObject" parameterType="com.huahua.saselomo.system.entity.Role">
 		INSERT INTO sys_roles 
-		(role, description, parentId, createdTime, createdUser)
+		(role, description,  createdTime, createdUser)
 		VALUES
-		(#{role}, #{description}, #{parentId}, NOW(), #{createdUser}) 
+		(#{role}, #{description},  NOW(), #{createdUser})
 	</insert>
 	<!-- 更新用户信息 -->
 	<update id="updateObject" parameterType="com.huahua.saselomo.system.entity.Role">
@@ -53,7 +53,7 @@
 	</delete>
 	<!-- 根据id查询一条角色信息 -->
 	<select id="findObjectById" parameterType="java.lang.Integer" resultType="com.huahua.saselomo.system.entity.Role">
-		SELECT id, role, description, parentId, createdTime 
+		SELECT id, role, description,  createdTime
 		FROM sys_roles 
 		WHERE id = #{id}
 	</select>

@@ -18,7 +18,7 @@
 <body>
 	<div class="login-box" id="rrapp">
 	  <div class="login-logo">
-	  	<img src="" alt="logo" />
+	  	<img src="homepage.jpg" alt="logo" />
 	  </div>
 	  <div class="login-box-body">
 	      <p class="login-box-msg"><b>用户登录</b></p>

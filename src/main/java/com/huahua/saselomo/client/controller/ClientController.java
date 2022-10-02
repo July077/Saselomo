@@ -190,7 +190,6 @@ public class ClientController {
 	@RequestMapping("doUpdateClient")
 	@ResponseBody
 	public JsonResult doUpdateObject(Client client){
-		System.out.println(client);
 		clientService.updateObject(client);
 		return new JsonResult();
 	}

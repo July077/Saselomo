@@ -1,9 +1,11 @@
 # FirstProject
 My First Project。  
-**Url**：<a href="http://47.92.121.229:8080/Saselomo1.0/toLogin.do" target="_blank">项目演示</a>  
+**Url**：<a href="http://124.220.42.36:8080/Saselomo1.0" target="_blank">项目演示</a>  
 **Username**：admin；**Password**：123；  
 **Description**：  
-此项目为一个进、出货的库存管理系统；  
+此项目为一个简单的进、出货的库存管理系统，使用SSM开发，前端是用BootStrap。
+## 环境：
+> JDK 1.8+、Maven 3.8.6、Mysql 8.0.30
 ## 涉及到模块：
 >1、基础信息：客户、产品、用户；  
 >2、供销管理，收货管理、售货管理；  

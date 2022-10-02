@@ -24,7 +24,6 @@ public class LoginServiceImpl implements LoginService {
 		if (username == null) {//用户名为空
 			throw new NullPropertyException("用户不能为空...");
 		}
-		System.out.println(username);
 		int i = userDao.isExist(username);
 		if (i != 1) {//用户不存在
 			throw new UnknownAccountException("该用户不存在...");
