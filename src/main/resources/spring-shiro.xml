@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd" >
+
+		<!-- 定义shiroFilter, 工厂bean配置 -->
+		<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean"><!-- id必须跟web.xml配置的filter的filtername值一致 -->
+			<!-- shiro核心安全接口 -->
+			<property name="securityManager" ref="securityManager"/>
+			<!-- 要求登录时的链接 -->
+			<property name="loginUrl" value="/toLogin.do"/>
+			<!-- shiro链接约束配置 -->
+			<property name="filterChainDefinitions">
+				<value>
+					<!-- 对静态资源允许匿名访问 -->
+					/assets/** = anon
+					/bootstrap/** = anon
+					/jquery/** = anon
+					/js/** = anon
+					<!-- 可匿名访问的路径, 例如:验证码, 登录链接, 退出链接等 -->
+					/confirmUser.do = anon
+					<!-- 退出 -->
+					/logout.do = logout<!-- 会调用subject的logout方法,此方法会将session清空 -->
+					<!-- 剩余其他路径,必须通过才可以访问 -->
+					/** = authc
+				</value>
+			</property>
+		</bean>
+		<!-- 配置shiro安全管理器 -->
+		<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+			<property name="realm" ref="userRealm"></property>
+		</bean>
+		<!-- 自定义realm -->
+		<bean id="userRealm" class="com.huahua.saselomo.common.realm.UserRealm">
+			<!-- 引入加密器 -->
+	    	<property name="credentialsMatcher" ref="credentialsMatcher"/>
+		</bean>
+		<!-- 配置凭证算法匹配器 -->
+		<bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+   			<!-- 加密算法 -->
+   			<property name="hashAlgorithmName" value="md5"/>
+   			<!-- 散列次数 -->
+    		<property name="hashIterations" value="3"/>
+   		</bean>
+</beans>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 
+ classpath:mapper/ReceivingSingleSingleMapper.xml
+ -->
+<mapper namespace="com.huahua.saselomo.receiving.dao.ReceivingSingleDao">
+  <!-- 确认收货 -->
+  <update id="confirmRecSingle">
+	UPDATE receiving_single
+  	SET
+  	valid = 3 
+  	WHERE id in 
+  	<foreach collection="ids" open="(" close=")" separator="," item="item">
+  		#{item}
+  	</foreach>
+  </update>
+  <!-- 查询对应收货单子项信息,一般设计多表查询,返回的结果类型,通常用map封装 -->
+  <select id="findObjects" resultType="java.util.Map">
+  	SELECT rs.id, rs.receivingId, rs.valid, rs.purchasePrice, rs.count, r.receiptCode, p.id proId, p.name, prs.id prsId
+  	FROM receiving_single rs 
+  	JOIN receiving r ON rs.receivingId = r.id 
+  	JOIN product_receiving_single prs ON rs.id = prs.receivingSingleId 
+  	JOIN product p ON prs.productId = p.id 
+	WHERE rs.receivingId = #{parentId} 
+	<if test="productName!=null and productName!=''">
+		AND p.name LIKE CONCAT("%", #{productName}, "%") 
+  	</if>
+  	ORDER BY rs.id DESC 
+  	<if test="pageObject != null">
+	  	LIMIT #{pageObject.startIndex}, #{pageObject.pageSize};
+  	</if>
+  </select>
+  <!-- 获取表中对应收货单子项信息记录数 -->
+  <select id="getRowCount" resultType="java.lang.Integer">
+ 		SELECT count(*) FROM receiving_single rs 
+ 		JOIN product_receiving_single prs ON rs.id = prs.receivingSingleId 
+  		JOIN product p ON prs.productId = p.id 
+ 		WHERE receivingId = #{parentId} 
+ 		<if test="productName!=null and productName!=''">
+			AND p.name LIKE CONCAT("%", #{productName}, "%") 
+	  	</if>
+  </select>
+  <!-- 存储收货单子项信息,并返回id值 -->
+  <insert id="saveObject" useGeneratedKeys="true" keyProperty="id" parameterType="com.huahua.saselomo.receiving.entity.ReceivingSingle">
+  	INSERT INTO receiving_single 
+  	(receivingId, valid, purchasePrice, count) 
+  	VALUES 
+  	(#{receivingId}, #{valid}, #{purchasePrice}, #{count});
+  </insert>
+  <!-- 更新收货单子项信息 -->
+  <update id="updateObject" parameterType="com.huahua.saselomo.receiving.entity.ReceivingSingle">
+  	UPDATE receiving_single
+  	SET
+  	valid = #{valid}, 
+  	purchasePrice = #{purchasePrice}, 
+  	count = #{count}
+  	WHERE id = #{id};
+  </update>
+  <!-- 根据id删除一条收货单子项信息 -->
+  <delete id="deleteObject" parameterType="java.lang.Integer">
+  	DELETE FROM receiving_single
+  	WHERE id = #{id};
+  </delete>
+  <!-- 根据id查询一条收货单子项信息 -->
+  <select id="findObjectById" parameterType="java.lang.Integer" resultType="java.util.Map">
+  	SELECT p.id productId, p.name, rs.purchasePrice, rs.count, rs.valid, p.firstStage, p.secondStage, p.supremacy, p.derivative, p.retail 
+  	FROM receiving_single rs
+  	JOIN product_receiving_single prs ON prs.receivingSingleId = rs.id 
+  	JOIN product p ON prs.productId = p.id 
+  	WHERE rs.id = #{id};
+  </select>
+</mapper> 

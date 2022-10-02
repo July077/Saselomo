@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 
+ classpath:mapper/UserMapper.xml
+ -->
+<mapper namespace="com.huahua.saselomo.system.dao.UserDao">
+	<!-- 根据用户id,查询当前用户的权限信息 -->
+	<select id="findPermissions" parameterType="java.lang.Integer" resultType="java.lang.String">
+		SELECT p.permission 
+		FROM sys_permissions p, sys_roles_permissions rp, sys_users_roles ur
+		WHERE p.id=rp.permissionId AND rp.roleId=ur.roleId AND ur.userId=#{userId};
+	</select>
+	<!-- 查询所有的用户信息 -->
+	<select id="findObjects" resultType="com.huahua.saselomo.system.entity.User">
+		SELECT id, username, name, email, mobile, valid, createdTime 
+		FROM sys_users 
+		<where>
+			<if test="user!=null and user.name!=null and user.name!=''">
+				name LIKE CONCAT("%", #{user.name}, "%") 
+			</if>
+			<if test="user!=null and user.username!=null and user.username!=''">
+				AND username LIKE CONCAT("%", #{user.username}, "%") 
+			</if>
+			<if test="user!=null and user.mobile!=null and user.mobile!=''">
+				AND mobile LIKE CONCAT("%", #{user.mobile}, "%") 
+			</if>
+		</where>
+		ORDER BY createdTime DESC
+		<if test="pageObject!=null and pageObject.pageSize!=0">
+			LIMIT #{pageObject.startIndex},#{pageObject.pageSize}
+		</if>
+	</select>
+	<!-- 查询总记录数 -->
+	<select id="getRowCounts" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM sys_users 
+		<where>
+			<if test="user!=null and user.name!=null and user.name!=''">
+				name LIKE CONCAT("%", #{user.name}, "%") 
+			</if>
+			<if test="user!=null and user.username!=null and user.username!=''">
+				AND username LIKE CONCAT("%", #{user.username}, "%") 
+			</if>
+			<if test="user!=null and user.mobile!=null and user.mobile!=''">
+				AND mobile LIKE CONCAT("%", #{user.mobile}, "%") 
+			</if>
+		</where>
+	</select>
+	<!-- 插入用户信息 -->
+	<insert id="saveObject" parameterType="com.huahua.saselomo.system.entity.User">
+		INSERT INTO sys_users 
+		(username, password, salt, name, email, mobile, valid, createdTime, createdUser)
+		VALUES
+		(#{username}, #{password}, #{salt}, #{name}, #{email}, #{mobile}, #{valid}, NOW(), #{createdUser}) 
+	</insert>
+	<!-- 更新用户信息 -->
+	<update id="updateObject" parameterType="com.huahua.saselomo.system.entity.User">
+		UPDATE sys_users 
+		SET
+			username = #{username},
+			password = #{password},
+			salt = #{salt},
+			name = #{name},
+			email = #{email},
+			mobile = #{mobile},
+			modifiedTime = NOW(),
+			modifiedUser = #{modifiedUser} 
+		WHERE id = #{id}
+	</update>
+	<!-- 根据id删除一条用户信息 -->
+	<delete id="deleteObject" parameterType="java.lang.Integer">
+		DELETE FROM sys_users 
+		WHERE id=#{id}
+	</delete>
+	<!-- 根据id查询一条用户信息 -->
+	<select id="findObjectById" parameterType="java.lang.Integer" resultType="com.huahua.saselomo.system.entity.User">
+		SELECT id, username, password, salt, name, email, mobile 
+		FROM sys_users 
+		WHERE id = #{id};
+	</select>
+	<!-- 根据用户名判定此用户是否存在 -->
+	<select id="isExist" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT count(*) FROM sys_users WHERE valid=1 AND username=#{username};
+	</select>
+	<!-- 根据用户名查询一条用户信息 -->
+	<select id="findByUsername" parameterType="java.lang.String" resultType="com.huahua.saselomo.system.entity.User">
+		SELECT id, username, password, salt, name, email, mobile 
+		FROM sys_users 
+		WHERE valid=1 AND username=#{username};
+	</select>
+</mapper> 

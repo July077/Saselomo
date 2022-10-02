@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 
+ classpath:mapper/ProductMapper.xml
+ -->
+<mapper namespace="com.huahua.saselomo.product.dao.ProductDao">
+  <!-- 批量插入产品信息,用于Excel产品的导入 -->
+  <insert id="importObject">
+	INSERT INTO product
+  	(id, name, abbreviation, valid, firstStage, secondStage, supremacy, derivative, retail, cartonSize, effect, sellingPoints, note, createdTime, createdUser)
+  	VALUES
+  	<foreach collection="products" item="p" separator=",">
+		(#{p.id}, #{p.name}, #{p.abbreviation}, #{p.valid}, #{p.firstStage}, #{p.secondStage}, #{p.supremacy}, #{p.derivative}, #{p.retail}, #{p.cartonSize}, #{p.effect}, #{p.sellingPoints}, #{p.note}, NOW(), #{p.createdUser})  	
+  	</foreach>
+  </insert>
+  <!-- 根据产品名,进行模糊查询库存内的产品信息 -->
+  <select id="findInvenInObjectByName" parameterType="java.lang.String" resultType="com.huahua.saselomo.product.entity.Product">
+  	SELECT id, name, abbreviation, valid, firstStage, secondStage, supremacy, derivative, retail, cartonSize, effect, sellingPoints, note, createdTime 
+  	FROM product 
+  	<where>
+	  	<if test="name!=null and name!=''">
+	  		name LIKE CONCAT("%", #{name}, "%") 
+	  	</if>
+	  	AND id IN (SELECT productId FROM inventory) 
+  	</where>
+  	ORDER BY createdTime DESC;
+  </select>
+  <!-- 根据产品名,进行模糊查询产品信息 -->
+  <select id="findObjectByName" parameterType="java.lang.String" resultType="com.huahua.saselomo.product.entity.Product">
+  	SELECT id, name, abbreviation, valid, firstStage, secondStage, supremacy, derivative, retail, cartonSize, effect, sellingPoints, note, createdTime 
+  	FROM product 
+  	<where>
+	  	<if test="name!=null and name!=''">
+	  		name LIKE CONCAT("%", #{name}, "%") 
+	  	</if>
+  	</where>
+  	ORDER BY createdTime DESC;
+  </select>
+
+  <!-- 查询产品信息 -->
+  <select id="findObjects" resultType="com.huahua.saselomo.product.entity.Product">
+  	SELECT id, name, abbreviation, valid, firstStage, secondStage, supremacy, derivative, retail, cartonSize, effect, sellingPoints, note, createdTime, modifiedTime, createdUser, modifiedUser 
+  	FROM product p
+  	<where>
+  		<if test="product.name!=null and product.name!=''">
+  			p.name LIKE CONCAT("%", #{product.name}, "%") 
+  		</if>
+  		<if test="product.abbreviation!=null and product.abbreviation!=''">
+  			AND p.abbreviation LIKE CONCAT("%", #{product.abbreviation}, "%") 
+  		</if>
+  		<if test="product.cartonSize!=null">
+  			AND p.cartonSize = product.cartonSize 
+  		</if>
+  		<if test="product.effect!=null and product.effect!=''">
+  			AND p.effect LIKE CONCAT("%", #{product.effect}, "%") 
+  		</if>
+  		<if test="product.sellingPoints!=null and product.sellingPoints!=''">
+  			AND p.sellingPoints LIKE CONCAT("%", #{product.sellingPoints}, "%") 
+  		</if>
+  		<if test="product.note!=null and product.note!=''">
+  			AND p.noteLIKE CONCAT("%", #{product.note}, "%") 
+  		</if>
+  	</where>
+  	ORDER BY createdTime DESC 
+  	<if test="pageObject != null">
+	  	LIMIT #{pageObject.startIndex}, #{pageObject.pageSize};
+  	</if>
+  </select>
+  <!-- 获取表中产品信息记录数 -->
+  <select id="getRowCount" resultType="java.lang.Integer">
+ 		SELECT count(*) FROM product p 
+ 		<where>
+	  		<if test="product.name!=null and product.name!=''">
+	  			p.name LIKE CONCAT("%", #{product.name}, "%") 
+	  		</if>
+	  		<if test="product.abbreviation!=null and product.abbreviation!=''">
+	  			AND p.abbreviation LIKE CONCAT("%", #{product.abbreviation}, "%") 
+	  		</if>
+	  		<if test="product.cartonSize!=null">
+	  			AND p.cartonSize = product.cartonSize 
+	  		</if>
+	  		<if test="product.effect!=null and product.effect!=''">
+	  			AND p.effect LIKE CONCAT("%", #{product.effect}, "%") 
+	  		</if>
+	  		<if test="product.sellingPoints!=null and product.sellingPoints!=''">
+	  			AND p.sellingPoints LIKE CONCAT("%", #{product.sellingPoints}, "%") 
+	  		</if>
+	  		<if test="product.note!=null and product.note!=''">
+	  			AND p.noteLIKE CONCAT("%", #{product.note}, "%") 
+	  		</if>
+	  	</where>
+  </select>
+  <!-- 根据id查询一条产品信息 -->
+  <select id="findObjectById" parameterType="java.lang.Integer" resultType="com.huahua.saselomo.product.entity.Product">
+  	SELECT id, name, abbreviation, valid, firstStage, secondStage, supremacy, derivative, retail, cartonSize, effect, sellingPoints, note, createdTime, modifiedTime, createdUser, modifiedUser 
+  	FROM product
+  	WHERE id=#{id};
+  </select>
+  
+  <!-- 将一条产品信息插入到数据库 -->
+  <insert id="saveObject" parameterType="com.huahua.saselomo.product.entity.Product">
+  	INSERT INTO product
+  	(id, name, abbreviation, valid, firstStage, secondStage, supremacy, derivative, retail, cartonSize, effect, sellingPoints, note, createdTime, createdUser)
+  	VALUES
+  	(#{id}, #{name}, #{abbreviation}, #{valid}, #{firstStage}, #{secondStage}, #{supremacy}, #{derivative}, #{retail}, #{cartonSize}, #{effect}, #{sellingPoints}, #{note}, NOW(), #{createdUser});
+  </insert>
+  
+  <!-- 根据id删除一条产品信息 -->
+  <delete id="deleteObject" parameterType="java.lang.Integer">
+  	DELETE FROM product 
+  	WHERE id=#{id};
+  </delete>
+  
+  <!-- 更新产品信息 -->
+  <update id="updateObject" parameterType="com.huahua.saselomo.product.entity.Product">
+  	UPDATE product 
+  	SET 
+  	name = #{name}, 
+  	abbreviation = #{abbreviation}, 
+  	valid = #{valid}, 
+  	firstStage = #{firstStage}, 
+  	secondStage = #{secondStage}, 
+  	supremacy = #{supremacy}, 
+  	derivative = #{derivative}, 
+  	retail = #{retail}, 
+  	cartonSize = #{cartonSize}, 
+  	effect = #{effect}, 
+  	sellingPoints = #{sellingPoints}, 
+  	note = #{note}, 
+  	modifiedTime = NOW(), 
+  	modifiedUser = #{modifiedUser} 
+  	WHERE id = #{id};
+  	
+  </update>
+</mapper> 

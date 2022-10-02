@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 
+ classpath:mapper/ProductReceivingSingleSingleMapper.xml
+ -->
+<mapper namespace="com.huahua.saselomo.client.dao.ClientPurHistoryDao">
+  <!-- 查询此客户全部购买记录 -->
+  <select id="findObjects" resultType="com.huahua.saselomo.client.entity.ClientPurHistory">
+  	SELECT id, clientId, purchaseDate, purProSimp, purProFull 
+  	FROM clientpurhistory 
+	WHERE clientId = #{clientId} 
+	<if test="purDate != null">
+		AND purchaseDate = #{purDate} 
+	</if>
+	ORDER BY purchaseDate DESC 
+	<if test="pageObject != null">
+		LIMIT #{pageObject.startIndex}, #{pageObject.pageSize};
+	</if>
+  </select>
+  <!-- 获取总记录数 -->  
+  <select id="getRowCount" resultType="java.lang.Integer">
+  	SELECT count(*) 
+  	FROM clientpurhistory 
+  	WHERE clientId = #{clientId} 
+	<if test="purDate != null">
+		AND purchaseDate = #{purDate} 
+	</if>
+  </select>
+  <!-- 存储客户购买记录 -->
+  <insert id="saveObject" parameterType="com.huahua.saselomo.client.entity.ClientPurHistory">
+  	INSERT INTO clientpurhistory  
+  	(id, clientId, purchaseDate, purProSimp, purProFull) 
+  	VALUES 
+  	(#{id}, #{clientId}, #{purchaseDate}, #{purProSimp}, #{purProFull});
+  </insert>
+  <!-- 更新客户购买记录 -->
+  <update id="updateObject" parameterType="com.huahua.saselomo.client.entity.ClientPurHistory">
+  	UPDATE clientpurhistory 
+  	SET 
+  	clientId = #{clientId}, 
+  	purchaseDate = #{purchaseDate}, 
+  	purProSimp = #{purProSimp}, 
+  	purProFull = #{purProFull}
+  	WHERE id = #{id};
+  </update>
+</mapper> 

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 
+ classpath:mapper/ReceivingSingleSingleMapper.xml
+ -->
+<mapper namespace="com.huahua.saselomo.sales.dao.SalesSingleDao">
+  <!-- 查询子项相关信息,用于客户购买记录的添加|更新,根据确认收货的子项id -->
+  <select id="findConfirmObjects" resultType="java.util.Map">
+  	SELECT ss.count, p.id proId, p.name, p.abbreviation 
+  	FROM sales_single ss  
+  	JOIN product_sales_single pss ON ss.id = pss.salesSingleId
+  	JOIN product p ON pss.productId = p.id 
+  	WHERE ss.id in 
+  	<foreach collection="ids" open="(" close=")" separator="," item="item">
+  		#{item}
+  	</foreach>
+  </select>
+  
+  <!-- 确认收货 -->
+  <update id="confirmSalSingle">
+	UPDATE sales_single
+  	SET
+  	valid = 3 
+  	WHERE id in 
+  	<foreach collection="ids" open="(" close=")" separator="," item="item">
+  		#{item}
+  	</foreach>
+  </update>
+  <!-- 查询对应售货单子项信息,一般设计多表查询,返回的结果类型,通常用map封装 -->
+  <select id="findObjects" resultType="java.util.Map">
+  	SELECT ss.id, ss.salesId, ss.valid, ss.salePrice, ss.count, s.saleCode, p.id proId, p.name, pss.id pssId
+  	FROM sales_single ss  
+  	JOIN sales s ON ss.salesId = s.id 
+  	JOIN product_sales_single pss ON ss.id = pss.salesSingleId 
+  	JOIN product p ON pss.productId = p.id 
+	WHERE ss.salesId = #{parentId} 
+	<if test="productName!=null and productName!=''">
+		AND p.name LIKE CONCAT("%", #{productName}, "%") 
+  	</if>
+  	ORDER BY ss.id DESC 
+  	<if test="pageObject != null">
+	  	LIMIT #{pageObject.startIndex}, #{pageObject.pageSize};
+  	</if>
+  </select>
+  <!-- 获取表中对应售货单子项信息记录数 -->
+  <select id="getRowCount" resultType="java.lang.Integer">
+ 		SELECT count(*) FROM sales_single ss 
+ 		JOIN product_sales_single pss ON ss.id = pss.salesSingleId 
+  		JOIN product p ON pss.productId = p.id 
+ 		WHERE ss.salesId = #{parentId} 
+		<if test="productName!=null and productName!=''">
+			AND p.name LIKE CONCAT("%", #{productName}, "%") 
+	  	</if>
+  </select>
+  <!-- 存储售货单子项信息,并返回id值 -->
+  <insert id="saveObject" useGeneratedKeys="true" keyProperty="id" parameterType="com.huahua.saselomo.sales.entity.SalesSingle">
+  	INSERT INTO sales_single 
+  	(salesId, valid, salePrice, count) 
+  	VALUES 
+  	(#{salesId}, #{valid}, #{salePrice}, #{count});
+  </insert>
+  <!-- 更新售货单子项信息 -->
+  <update id="updateObject" parameterType="com.huahua.saselomo.sales.entity.SalesSingle">
+  	UPDATE sales_single
+  	SET
+  	valid = #{valid}, 
+  	salePrice = #{salePrice}, 
+  	count = #{count}
+  	WHERE id = #{id};
+  </update>
+  <!-- 根据id删除一条售货单子项信息 -->
+  <delete id="deleteObject" parameterType="java.lang.Integer">
+  	DELETE FROM sales_single
+  	WHERE id = #{id};
+  </delete>
+  <!-- 根据id查询一条售货单子项信息 -->
+  <select id="findObjectById" parameterType="java.lang.Integer" resultType="java.util.Map">
+  	SELECT p.id productId, p.name, p.firstStage, p.secondStage, p.supremacy, p.derivative, p.retail, ss.salePrice, ss.count, ss.valid  
+  	FROM sales_single ss
+  	JOIN product_sales_single pss ON pss.salesSingleId = ss.id 
+  	JOIN product p ON pss.productId = p.id 
+  	WHERE ss.id = #{id};
+  </select>
+</mapper> 
